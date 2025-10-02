@@ -1,22 +1,71 @@
-# Anti Ramsomware Para LINUX- Não Finalizado
-Consiste na observação de pastas especifícas e honeypots pela biblioteca watchdog, a cada alteração de arquivo chama o ausearch, configurado pelo auditd para observar a pasta, buscando o nome do arquivo alterado e filtrando pelas syscalls mas utilizadas por ramsomwares
+## CyberRaiders – Monitor de Ransomware para Linux
 
-### Syscalls
+O CyberRaiders é um sistema de monitoramento e defesa contra ransomwares em Linux.
+Ele combina honeypots, monitoramento em tempo real de arquivos, análise de entropia e quarentena automática de executáveis suspeitos.
+Inclui interface gráfica
+
+### Funcionalidades
+
+-Criação de arquivos honeypot em pastas críticas (Documents, Desktop, Downloads).
+
+-Monitoramento em tempo real de eventos do sistema de arquivos com watchdog e syscalls via auditd.
+
+-Análise de entropia dos arquivos modificados para identificar possíveis criptografias.
+
+-Detecção de processos suspeitos que alteram muitos arquivos em pouco tempo.
+
+-Colocação em quarentena de executáveis suspeitos e encerramento automático do processo.
+
+-Interface CLI simples para servidores e GUI em PyQt5 para desktops.
+
+-Logs detalhados de alterações, processos finalizados e arquivos analisados.
+
+-Configuração automática do auditd em distribuições Linux suportadas.
+
+## Funcionalidades na GUI:
+
+-Aba Logs: exibe eventos e alertas.
+
+-Aba Processos: mostra PIDs monitorados, alterações e status.
+
+-Aba Arquivos Modificados: lista arquivos afetados, PID e status (normal, modificado, suspeito).
+
+-Aba Pastas/Controle: permite adicionar, remover e limpar pastas monitoradas.
+
+-Botões Iniciar/Parar monitoramento.
+
+-Clique duplo em um processo para filtrar arquivos relacionados.
+
+## Estratégia de Detecção
+
+### 1- Watchdog monitora mudanças em arquivos em pastas selecionadas pelo usuario.
+
+### 2- A cada modificação é buscado o pid, ppid, comm e nome atual do arquivo (caso tenha sido modificado). A modificação só vista se caso chamar uma das seguintes syscalls:
+#### Syscalls
 `openat()`
 `rename()`
 `write()`
 `unlink()`
 `stat()`
+`creat()`
+`openat2()`
+`writev()`
 
-A cada 10 alterações em 30 segundos, com essas syscalls pelo mesmo pid nas pastas observadas, o programa calcula a entropia dos arquivos criados para verificar se houve criptografia.
-O programa tenta finalizar primeiro pelo ppid. Verificando antes se esta na white-list={"systemd", "init", "bash", "zsh", "sh", "sshd",
-    "cron", "crond", "dbus-daemon", "NetworkManager",
-    "agetty", "login", "Xorg", "gnome-shell", "kdeinit"}
-Se não puder finalizar pelo ppid tenta finalizar pelo pid, e coloca o arquivo do programa de execução em quarentena.
+### 3- Arquivos modificados são avaliados:
+
+- Se muitos arquivos foram alterados em sequência.
+
+- Se a entropia > 7.6 (indicativo de criptografia).
+
+- Se não forem arquivos legítimos (ZIP, PDF).
+
+- Caso suspeito: processo encerrado + executável movido para quarentena.
+
+A cada 10 alterações, com essas syscalls pelo mesmo pid nas pastas observadas, o programa calcula a entropia dos arquivos criados para verificar se houve criptografia.
+O programa busca primeiro no /proc o executavel resposavel por tal pid e coloca no /var/quarentena_execs
+Depois da quarentena o programa é encerrado pelo seu pid e colocado um popup na tela avisando do arquivo encerrado
 
 
 #### Limpeza de logs
 
-`1- A cada verficação de modificação que realmente chama uma das syscalls passa para outro log e adiciona no contador de alterações perigosas.`
-`2- A cada 30 segundos o log principal que é verificado a cada chamada é limpo.`
-`3- O segundo log com as alterações perigosas é visualizado de 8 em 8 minutos`
+`O Log do audit tem configuração de rotação entre dois arquivos e um limite máximo de tamanho.`
