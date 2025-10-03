@@ -4,6 +4,11 @@ O CyberRaiders é um sistema de monitoramento e defesa contra ransomwares em Lin
 Ele combina honeypots, monitoramento em tempo real de arquivos, análise de entropia e quarentena automática de executáveis suspeitos.
 Inclui interface gráfica
 
+## Rodar o Programa
+
+Para rodar a solução precisa rodar o arquivo elf "CyberRaiders", escolher as pastas a serem monitoradas na aba Pastas/Controles (de preferência não usar pastas amplas como /, /home, /etc); e depois de escolher as pastas iniciar o programa clicando na botão na parte inferior da interface gráfica. Para parar de rodar apenas clique no botão de parar monitoramento à direita do botão de iniciar.
+
+
 ### Funcionalidades
 
 -Criação de arquivos honeypot em pastas críticas e selecionadas pelo usuário (Documents, Desktop, Downloads), que são criados ao iniciar o programa e apagadas ao encerrar o programa.
@@ -64,15 +69,6 @@ Inclui interface gráfica
 A cada 10 alterações, com essas syscalls pelo mesmo pid nas pastas observadas, o programa calcula a entropia dos arquivos criados para verificar se houve criptografia.
 O programa busca primeiro no /proc o executavel resposavel por tal pid e coloca no /var/quarentena_execs
 Depois da quarentena o programa é encerrado pelo seu pid e colocado um popup na tela avisando do arquivo encerrado
-
-
-#### Limpeza de logs
-
-`O Log do audit tem configuração de rotação entre dois arquivos e um limite máximo de tamanho.`
-
-## Rodar o Programa
-
-Para rodar a solução precisa rodar o arquivo elf "CyberRaiders", escolher as pastas a serem monitoradas na aba Pastas/Controles (de preferência não usar pastas amplas como /, /home, /etc); e depois de escolher as pastas iniciar o programa clicando na botão na parte inferior da interface gráfica. Para parar de rodar apenas clique no botão de parar monitoramento à direita do botão de iniciar.
 
 
 #### Limpeza de logs
