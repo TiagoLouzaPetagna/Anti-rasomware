@@ -75,7 +75,6 @@ WHITELIST = {
 }
 
 def atualizar_tracker_miner_ppids():
-    """Atualiza a lista de PIDs do tracker miner"""
     global TRACKER_MINER_PPIDS
     try:
         result = subprocess.run([
@@ -269,7 +268,6 @@ def criar_arquivos_isca(pasta):
 
 
 def limpar_pastas_honeypot():
-    """Remove todas as pastas honeypot criadas pelo programa"""
     global PASTAS_HONEYPOT_CRIADAS
     pastas_removidas = 0
     
@@ -455,7 +453,6 @@ class MonitorRansomware(FileSystemEventHandler):
 
 
     def eh_processo_tracker_miner(self, pid, ppid, comm):
-        """Verifica se o processo é filho do tracker miner"""
         if not ppid:
             return False
 
@@ -679,4 +676,5 @@ def executar_sem_gui():
         monitor_thread.join(timeout=5)
 
 if __name__ == "__main__":
+
     executar_sem_gui()
