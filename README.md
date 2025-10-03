@@ -1,6 +1,8 @@
 ## CyberRaiders – Monitor de Ransomware para Linux
 
-Projeto do Challenge FIAP, grupo CyberRaiders. Sistema de monitoramento e defesa contra ransomwares em Linux.
+Projeto do Challenge FIAP, grupo CyberRaiders. 
+
+Sistema de monitoramento e defesa contra ransomwares em Linux.
 Ele combina honeypots, monitoramento em tempo real de arquivos, análise de entropia e quarentena automática de executáveis suspeitos.
 Inclui interface gráfica
 
