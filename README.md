@@ -6,7 +6,7 @@ Inclui interface gráfica
 
 ### Funcionalidades
 
--Criação de arquivos honeypot em pastas críticas (Documents, Desktop, Downloads).
+-Criação de arquivos honeypot em pastas críticas e selecionadas pelo usuário (Documents, Desktop, Downloads), que são criados ao iniciar o programa e apagadas ao encerrar o programa.
 
 -Monitoramento em tempo real de eventos do sistema de arquivos com watchdog e syscalls via auditd.
 
